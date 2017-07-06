@@ -1,0 +1,9 @@
+spring:
+  cloud:
+    stream:
+      bindings:
+        accountCreatedChannel:
+          destination: account-created-queue
+          contentType: application/json
+          durableSubscription: true
+          group: default
