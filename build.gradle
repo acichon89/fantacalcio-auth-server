@@ -41,6 +41,7 @@ dependencies {
 	compile('org.flywaydb:flyway-core')
 	compile('org.springframework.boot:spring-boot-starter-validation')
 	compile('org.springframework.boot:spring-boot-starter-web')
+	compile('org.springframework.boot:spring-boot-starter-security')
 	compile('com.javangarda.fantacalcio:fantacalcio-commons:1.0.0') {
 		exclude	group : 'javax.validation'
 		exclude group : 'javax.persistence'
@@ -48,10 +49,13 @@ dependencies {
 		exclude group : 'org.springframework.security'
 		exclude group : 'org.springframework.data'
 	}
+	compile group: 'org.springframework.security.oauth', name: 'spring-security-oauth2', version: '2.0.11.RELEASE'
+	compile group: 'org.springframework.security', name: 'spring-security-jwt', version: '1.0.5.RELEASE'
 	runtime('mysql:mysql-connector-java')
 	runtime('org.springframework.boot:spring-boot-devtools')
 	compileOnly('org.projectlombok:lombok')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
+	compile "org.flywaydb:flyway-core:4.0.3"
 }
 
 dependencyManagement {

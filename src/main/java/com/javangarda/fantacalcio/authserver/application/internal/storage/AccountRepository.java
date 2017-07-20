@@ -5,9 +5,13 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;
 import org.springframework.data.repository.query.Param;
 
+import java.util.Optional;
+
 public interface AccountRepository extends Repository<Account, String>{
     Account save(Account entity);
     @Query("UPDATE Account a SET a.password=:password WHERE email=:email")
     @Modifying
     void updatePassword(@Param("email") String email, @Param("password") String password);
+
+    Optional<Account> findByEmail(String email);
 }

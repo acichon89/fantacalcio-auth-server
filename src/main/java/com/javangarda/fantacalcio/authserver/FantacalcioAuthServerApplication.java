@@ -1,5 +1,7 @@
 package com.javangarda.fantacalcio.authserver;
 
+import com.javangarda.fantacalcio.authserver.application.gateway.QueryFacade;
+import com.javangarda.fantacalcio.authserver.application.gateway.impl.SimpleQueryFacade;
 import com.javangarda.fantacalcio.authserver.application.internal.AccountFactory;
 import com.javangarda.fantacalcio.authserver.application.internal.AccountService;
 import com.javangarda.fantacalcio.authserver.application.internal.saga.UserClient;
@@ -13,6 +15,7 @@ import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler;
 import org.springframework.aop.interceptor.SimpleAsyncUncaughtExceptionHandler;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.cloud.stream.annotation.EnableBinding;
@@ -25,8 +28,11 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.messaging.MessageChannel;
 import org.springframework.scheduling.annotation.AsyncConfigurer;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
+import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.concurrent.Executor;
@@ -36,6 +42,9 @@ import java.util.concurrent.Executor;
 @EnableBinding(Events.class)
 @EnableIntegration
 @IntegrationComponentScan(basePackages = "com.javangarda.fantacalcio.authserver")
+@EnableGlobalMethodSecurity(prePostEnabled = true)
+@EnableResourceServer
+@EnableDiscoveryClient
 public class FantacalcioAuthServerApplication implements AsyncConfigurer {
 
 	public static void main(String[] args) {
@@ -46,6 +55,11 @@ public class FantacalcioAuthServerApplication implements AsyncConfigurer {
 	@LoadBalanced
 	public RestTemplate restTemplate(){
 		return new RestTemplate();
+	}
+
+	@Bean
+	public QueryFacade queryFacade(AccountRepository accountRepository){
+		return new SimpleQueryFacade(accountRepository);
 	}
 
 	@Primary
