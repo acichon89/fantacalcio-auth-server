@@ -14,7 +14,7 @@ public class SimpleAccountFactory implements AccountFactory {
     private PasswordEncoder passwordEncoder;
 
     @Override
-    public Account create(CreateAccountCommand createAccountCommand) {
+    public Account createValid(CreateAccountCommand createAccountCommand) {
         Account account = new Account(generateId());
         account.assignValid(createAccountCommand.getEmail(), passwordEncoder.encode(createAccountCommand.getPassword()));
         return account;

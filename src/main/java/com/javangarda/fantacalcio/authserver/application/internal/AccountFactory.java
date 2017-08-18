@@ -4,5 +4,5 @@ import com.javangarda.fantacalcio.authserver.application.gateway.command.CreateA
 import com.javangarda.fantacalcio.authserver.application.internal.storage.Account;
 
 public interface AccountFactory {
-    Account create(CreateAccountCommand createAccountCommand);
+    Account createValid(CreateAccountCommand createAccountCommand);
 }

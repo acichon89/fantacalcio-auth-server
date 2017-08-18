@@ -1,11 +1,12 @@
 CREATE TABLE `accounts` (
-  `id` varchar(255) NOT NULL,
-  `email` varchar(255) DEFAULT NULL,
-  `account_status` varchar(255) DEFAULT NULL,
-  `password` varchar(255) DEFAULT NULL,
-  'roles' VARCHAR (255) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-)
+  id varchar(255) NOT NULL,
+  email varchar(255) DEFAULT NULL,
+  account_status varchar(255) DEFAULT NULL,
+  password varchar(255) DEFAULT NULL,
+  roles VARCHAR (255) DEFAULT NULL,
+  PRIMARY KEY (id)
+);
+
 create table oauth_client_details (
   client_id VARCHAR(255) PRIMARY KEY,
   resource_ids VARCHAR(255),
@@ -53,8 +54,8 @@ create table oauth_approvals (
   clientId VARCHAR(255),
   scope VARCHAR(255),
   status VARCHAR(10),
-  expiresAt TIMESTAMP,
-  lastModifiedAt TIMESTAMP
+  expiresAt DATETIME,
+  lastModifiedAt DATETIME
 );
 
 create table ClientDetails (

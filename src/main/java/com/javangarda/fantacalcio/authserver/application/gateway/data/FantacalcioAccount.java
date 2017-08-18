@@ -19,7 +19,7 @@ public class FantacalcioAccount extends User {
     public FantacalcioAccount(Account account){
         super(account.getEmail(),account.getPassword(), account.hasStatus(AccountStatus.VALID),
                 account.hasStatus(AccountStatus.VALID), account.hasStatus(AccountStatus.VALID), account.hasStatus(AccountStatus.VALID),
-                account.getRoles().stream().map(role -> new SimpleGrantedAuthority(role.name())).collect(Collectors.toCollection(HashSet::new)));
+                account.allRoles().stream().map(role -> new SimpleGrantedAuthority(role.name())).collect(Collectors.toCollection(HashSet::new)));
         this.id=account.getId();
     }
 }

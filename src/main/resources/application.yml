@@ -7,3 +7,30 @@ spring:
           contentType: application/json
           durableSubscription: true
           group: default
+        accountPasswordChangedChannel:
+          destination: account-password-changed-queue
+          contentType: application/json
+          durableSubscription: true
+          group: default
+        accountEmailChangedChannel:
+          destination: account-email-changed-queue
+          contentType: application/json
+          durableSubscription: true
+          group: default
+security:
+  oauth2:
+    client:
+      accessTokenUri: http://fantacalcio-auth-server/oauth/token
+      grant-type: client_credentials
+      scope: server
+    resource:
+      loadBalanced: true
+      user-info-uri: http://fantacalcio-auth-server/current
+logging:
+  level:
+    com:
+      javangarda:
+        fantacalcio: DEBUG
+    org:
+      springframework:
+        security: DEBUG

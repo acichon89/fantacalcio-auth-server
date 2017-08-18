@@ -1,34 +1,35 @@
 package com.javangarda.fantacalcio.authserver.application.internal.storage;
 
-import com.javangarda.fantacalcio.commons.entities.DefaultEntity;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import org.apache.commons.lang3.ArrayUtils;
+import lombok.Setter;
+import lombok.ToString;
 import org.apache.commons.lang3.StringUtils;
 
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.Table;
 import java.util.*;
 import java.util.stream.Collectors;
 
-@Entity
-@Table(name = "accounts")
-public class Account extends DefaultEntity<String> {
+@ToString
+@EqualsAndHashCode
+public class Account {
 
     private static final String ROLE_DELIMETER = ",";
 
-    @Getter
+    @Getter @Setter
+    private String id;
+    @Getter @Setter
     private String email;
-    @Getter
+    @Getter @Setter
     private String password;
-    @Getter
+    @Getter @Setter
     private AccountStatus accountStatus;
+    @Getter @Setter
     private String roles;
 
     public Account() {}
 
     public Account(String id){
-        super(id);
+        this.id=id;
     }
 
     public void assignValid(String email, String password){
@@ -43,7 +44,7 @@ public class Account extends DefaultEntity<String> {
     }
 
     public boolean hasRole(AccountRole role){
-        return getRoles().contains(role);
+        return allRoles().contains(role);
     }
 
     public boolean grant(AccountRole role){
@@ -58,7 +59,7 @@ public class Account extends DefaultEntity<String> {
         this.accountStatus = AccountStatus.BANNED;
     }
 
-    public Set<AccountRole> getRoles() {
+    public Set<AccountRole> allRoles() {
         return this.roles==null ? Collections.emptySet() : Arrays.stream(this.roles.split(ROLE_DELIMETER)).filter(AccountRole::isValid).map(AccountRole::valueOf).collect(Collectors.toCollection(HashSet::new));
     }
 
@@ -77,7 +78,7 @@ public class Account extends DefaultEntity<String> {
 
     private boolean removeRole(String role) {
         final StringJoiner stringJoiner = new StringJoiner(ROLE_DELIMETER);
-        getRoles().stream().filter(roleAccount -> !roleAccount.name().equals(role)).forEach(roleAccount -> stringJoiner.add(roleAccount.name()));
+        allRoles().stream().filter(roleAccount -> !roleAccount.name().equals(role)).forEach(roleAccount -> stringJoiner.add(roleAccount.name()));
         roles = stringJoiner.toString();
         return true;
     }
